@@ -10,9 +10,9 @@ import {
 
 import ScalarApiReference from "@scalar/fastify-api-reference";
 import { env } from "./env";
-import { captureWebhooks } from "./routes/capture-webhooks";
-import { deleteWebhooks } from "./routes/delete-webhooks";
-import { getWebhooks } from "./routes/get-webhooks";
+import { captureWebhook } from "./routes/capture-webhook";
+import { deleteWebhook } from "./routes/delete-webhook";
+import { getWebhook } from "./routes/get-webhook";
 import { listWebhooks } from "./routes/list-webhooks";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -42,9 +42,9 @@ app.register(ScalarApiReference, {
 });
 
 app.register(listWebhooks);
-app.register(getWebhooks);
-app.register(deleteWebhooks);
-app.register(captureWebhooks);
+app.register(getWebhook);
+app.register(deleteWebhook);
+app.register(captureWebhook);
 
 app.listen({ port: env.PORT, host: "0.0.0.0" }).then(() => {
   console.log("🔥 HTTP server running on http://0.0.0.0:3333");

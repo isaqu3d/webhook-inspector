@@ -5,7 +5,7 @@ import { createSelectSchema } from "drizzle-zod";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
-export const getWebhooks: FastifyPluginAsyncZod = async (app) => {
+export const getWebhook: FastifyPluginAsyncZod = async (app) => {
   app.get(
     "/api/webhooks/:id",
     {
@@ -37,6 +37,6 @@ export const getWebhooks: FastifyPluginAsyncZod = async (app) => {
       }
 
       return reply.send(result[0]);
-    },
+    }
   );
 };

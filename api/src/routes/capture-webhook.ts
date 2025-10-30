@@ -3,7 +3,7 @@ import { webhooks } from "@/db/schema";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
-export const captureWebhooks: FastifyPluginAsyncZod = async (app) => {
+export const captureWebhook: FastifyPluginAsyncZod = async (app) => {
   app.all(
     "/capture/*",
     {
@@ -30,7 +30,7 @@ export const captureWebhooks: FastifyPluginAsyncZod = async (app) => {
         Object.entries(request.headers).map(([key, value]) => [
           key,
           Array.isArray(value) ? value.join(", ") : value || "",
-        ]),
+        ])
       );
 
       let body: string | null = null;
@@ -56,6 +56,6 @@ export const captureWebhooks: FastifyPluginAsyncZod = async (app) => {
         .returning();
 
       return reply.send({ id: result[0].id });
-    },
+    }
   );
 };
