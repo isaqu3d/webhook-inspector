@@ -18,14 +18,16 @@ export const listWebhooks: FastifyPluginAsyncZod = async (app) => {
         }),
         response: {
           200: z.object({
-            webhooks: z.array(createSelectSchema(webhooks).pick({
-              id: true,
-              method: true,
-              pathname: true,
-              createdAt: true,
-            })),
+            webhooks: z.array(
+              createSelectSchema(webhooks).pick({
+                id: true,
+                method: true,
+                pathname: true,
+                createdAt: true,
+              }),
+            ),
             nextCursor: z.string().nullable(),
-          })
+          }),
         },
       },
     },
@@ -41,18 +43,19 @@ export const listWebhooks: FastifyPluginAsyncZod = async (app) => {
         })
         .from(webhooks)
         .where(cursor ? lt(webhooks.id, cursor) : undefined)
-        .orderBy(desc(webhooks.id)).limit(limit + 1)
-
+        .orderBy(desc(webhooks.id))
+        .limit(limit + 1);
 
       const hasMore = result.length > limit;
       const webhooksList = hasMore ? result.slice(0, limit) : result;
-      const nextCursor = hasMore ? webhooksList[webhooksList.length - 1].id : null;
-
+      const nextCursor = hasMore
+        ? webhooksList[webhooksList.length - 1].id
+        : null;
 
       return reply.send({
         webhooks: webhooksList,
         nextCursor,
       });
-    }
+    },
   );
 };
