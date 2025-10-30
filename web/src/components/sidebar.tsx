@@ -1,6 +1,8 @@
 import { CopyIcon } from "lucide-react";
+import { Suspense } from "react";
 import { IconButton } from "./ui/icon-button";
 import { WebhooksList } from "./webhooks-list";
+import { WebhooksListItemSkeleton } from "./webhooks-list-item-skeleton";
 
 export function Sidebar() {
   return (
@@ -18,7 +20,9 @@ export function Sidebar() {
         </div>
         <IconButton icon={<CopyIcon className="size-4" />} />
       </div>
-      <WebhooksList />
+      <Suspense fallback={<WebhooksListItemSkeleton />}>
+        <WebhooksList />
+      </Suspense>
     </div>
   );
 }
