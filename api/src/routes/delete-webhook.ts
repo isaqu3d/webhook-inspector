@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
-export const deleteWebhooks: FastifyPluginAsyncZod = async (app) => {
+export const deleteWebhook: FastifyPluginAsyncZod = async (app) => {
   app.delete(
     "/api/webhooks/:id",
     {
@@ -35,6 +35,6 @@ export const deleteWebhooks: FastifyPluginAsyncZod = async (app) => {
       }
 
       return reply.status(204).send();
-    },
+    }
   );
 };
