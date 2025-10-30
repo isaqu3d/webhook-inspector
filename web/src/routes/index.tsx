@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { SectionDataTable } from "../components/section-data-table";
+import { SectionTitle } from "../components/section-title";
 import { Sidebar } from "../components/sidebar";
+import { CodeBlock } from "../components/ui/code-block";
 import { WebhookDetailHeader } from "../components/ui/webhook-detail-header";
 
 export const Route = createFileRoute("/")({
@@ -8,6 +11,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const overviewData = [
+    {
+      key: "Method",
+      value: "POST",
+    },
+
+    {
+      key: "Status Code",
+      value: "200",
+    },
+
+    {
+      key: "Content-Type",
+      value: "application/json",
+    },
+
+    {
+      key: "Content-Length",
+      value: "3232 bytes",
+    },
+  ];
+
   return (
     <div className="h-screen bg-zinc-900">
       <PanelGroup direction="horizontal">
@@ -19,7 +44,40 @@ function Index() {
           <div className="flex h-full flex-col">
             <WebhookDetailHeader />
 
-            <div className="flex items-center gap-2"></div>
+            <div className="flex-1 overflow-auto">
+              <div className="space-y-6 p-6">
+                <div className="space-y-4">
+                  <SectionTitle className="text-sm font-semibold text-zinc-100">
+                    Request Overview
+                  </SectionTitle>
+
+                  <SectionDataTable data={overviewData} />
+                </div>
+
+                <div className="space-y-4">
+                  <SectionTitle className="text-sm font-semibold text-zinc-100">
+                    Query Parameters
+                  </SectionTitle>
+
+                  <SectionDataTable data={overviewData} />
+                </div>
+
+                <div className="space-y-4">
+                  <SectionTitle className="text-sm font-semibold text-zinc-100">
+                    Headers
+                  </SectionTitle>
+                  <SectionDataTable data={overviewData} />
+                </div>
+
+                <div className="space-y-4">
+                  <SectionTitle className="text-sm font-semibold text-zinc-100">
+                    Request Body
+                  </SectionTitle>
+
+                  <CodeBlock code={JSON.stringify(overviewData, null, 2)} />
+                </div>
+              </div>
+            </div>
           </div>
         </Panel>
       </PanelGroup>
