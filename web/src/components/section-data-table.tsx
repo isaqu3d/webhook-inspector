@@ -1,15 +1,15 @@
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface SectionDataTable extends ComponentProps<"table"> {
-  data: Array<{ key: string; value: string }>;
+interface SectionDataTableProps extends ComponentProps<"div"> {
+  data: Array<{ key: string; value: string | number }>;
 }
 
 export function SectionDataTable({
   className,
   data,
   ...props
-}: SectionDataTable) {
+}: SectionDataTableProps) {
   return (
     <div
       className={twMerge(
