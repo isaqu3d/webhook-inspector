@@ -160,7 +160,7 @@ function generateStripeWebhookBody(eventType: string) {
     };
   }
 
-  return JSON.stringify({ ...baseEvent, data });
+  return JSON.stringify({ ...baseEvent, data }, null, 2);
 }
 
 function generateStripeHeaders() {
