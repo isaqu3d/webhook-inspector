@@ -11,8 +11,13 @@ export function WebhooksList() {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery({
       queryKey: ["webhooks"],
-      queryFn: async () => {
-        const response = await fetch("http://localhost:3333/api/webhooks");
+      queryFn: async ({ pageParam }) => {
+        const url = new URL("http://localhost:3333/api/webhooks");
+
+        if (pageParam) {
+          url.searchParams.set("cursor", pageParam);
+        }
+        const response = await fetch(url);
 
         const data = await response.json();
 
@@ -21,7 +26,7 @@ export function WebhooksList() {
       getNextPageParam: (lastPage) => {
         return lastPage.nextCursor ?? undefined;
       },
-      initialPageParam: undefined,
+      initialPageParam: undefined as string | undefined,
     });
 
   const webhooks = data.pages.flatMap((page) => page.webhooks);
