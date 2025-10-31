@@ -38,6 +38,19 @@ export function WebhookDetails({ id }: { id: string }) {
       value: `${data.contentLength || "0"} bytes`,
     },
   ];
+
+  const headers = Object.entries(data.headers).map(([key, value]) => ({
+    key,
+    value: String(value),
+  }));
+
+  const queryParams = Object.entries(data.queryParams || {}).map(
+    ([key, value]) => ({
+      key,
+      value: String(value),
+    })
+  );
+
   return (
     <div className="flex h-full flex-col">
       <WebhookDetailHeader
@@ -59,26 +72,30 @@ export function WebhookDetails({ id }: { id: string }) {
 
           <div className="space-y-4">
             <SectionTitle className="text-sm font-semibold text-zinc-100">
-              Query Parameters
-            </SectionTitle>
-
-            <SectionDataTable data={overviewData} />
-          </div>
-
-          <div className="space-y-4">
-            <SectionTitle className="text-sm font-semibold text-zinc-100">
               Headers
             </SectionTitle>
-            <SectionDataTable data={overviewData} />
+            <SectionDataTable data={headers} />
           </div>
 
-          <div className="space-y-4">
-            <SectionTitle className="text-sm font-semibold text-zinc-100">
-              Request Body
-            </SectionTitle>
+          {queryParams.length > 0 && (
+            <div className="space-y-4">
+              <SectionTitle className="text-sm font-semibold text-zinc-100">
+                Query Parameters
+              </SectionTitle>
 
-            <CodeBlock code={JSON.stringify(overviewData, null, 2)} />
-          </div>
+              <SectionDataTable data={queryParams} />
+            </div>
+          )}
+
+          {!!data.body && (
+            <div className="space-y-4">
+              <SectionTitle className="text-sm font-semibold text-zinc-100">
+                Request Body
+              </SectionTitle>
+
+              <CodeBlock code={data.body} />
+            </div>
+          )}
         </div>
       </div>
     </div>
