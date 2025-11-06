@@ -6,6 +6,8 @@ const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   DATABASE_URL: z.url(),
+
+  GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
