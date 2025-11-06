@@ -31,7 +31,7 @@ export const captureWebhook: FastifyPluginAsyncZod = async (app) => {
         Object.entries(request.headers).map(([key, value]) => [
           key,
           Array.isArray(value) ? value.join(", ") : value || "",
-        ])
+        ]),
       );
 
       let body: string | null = null;
@@ -57,6 +57,6 @@ export const captureWebhook: FastifyPluginAsyncZod = async (app) => {
         .returning();
 
       return reply.send({ id: result[0].id });
-    }
+    },
   );
 };

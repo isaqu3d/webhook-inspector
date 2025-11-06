@@ -35,6 +35,6 @@ export const deleteWebhook: FastifyPluginAsyncZod = async (app) => {
       }
 
       return reply.status(204).send();
-    }
+    },
   );
 };

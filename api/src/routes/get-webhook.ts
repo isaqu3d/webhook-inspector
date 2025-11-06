@@ -37,6 +37,6 @@ export const getWebhook: FastifyPluginAsyncZod = async (app) => {
       }
 
       return reply.send(result[0]);
-    }
+    },
   );
 };
