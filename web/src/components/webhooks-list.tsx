@@ -11,6 +11,7 @@ export function WebhooksList() {
   const [generateHandlerCode, setGenerateHandlerCode] = useState<string | null>(
     null
   );
+  const [isGenerating, setIsGenerating] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver>(null);
 
@@ -76,21 +77,26 @@ export function WebhooksList() {
   }
 
   async function handleGenerateHandler() {
-    const response = await fetch("http://localhost:3333/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        webhookIds: checkedWebhooksIds,
-      }),
-    });
+    setIsGenerating(true);
+    try {
+      const response = await fetch("http://localhost:3333/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          webhookIds: checkedWebhooksIds,
+        }),
+      });
 
-    type GenerateHandlerResponse = { code: string };
+      type GenerateHandlerResponse = { code: string };
 
-    const data: GenerateHandlerResponse = await response.json();
+      const data: GenerateHandlerResponse = await response.json();
 
-    setGenerateHandlerCode(data.code);
+      setGenerateHandlerCode(data.code);
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   const hasAnyWebhookChecked = checkedWebhooksIds.length > 0;
@@ -101,11 +107,19 @@ export function WebhooksList() {
         <div className="space-y-1 p-2">
           {hasAnyWebhookChecked && (
             <button
-              disabled={!hasAnyWebhookChecked}
+              disabled={!hasAnyWebhookChecked || isGenerating}
               className="flex items-center justify-center gap-3 font-medium text-sm bg-indigo-400 text-white w-full rounded-lg disabled:opacity-50 mb-3 p-2"
               onClick={() => handleGenerateHandler()}
             >
-              <Wand2 className="size-4" /> Gerar handler
+              {isGenerating ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" /> Gerando handler...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="size-4" /> Gerar handler
+                </>
+              )}
             </button>
           )}
 
