@@ -137,7 +137,7 @@ export function WebhooksList() {
           <Dialog.Overlay className="fixed inset-0 bg-black/50 z-20" />
 
           <Dialog.Content className="flex justify-center items-center fixed left-1/2 top-1/2 max-h-[90vh] w-[90vw] -translate-y-1/2 -translate-x-1/2 z-40">
-            <div className="bg-zinc-900 w-[600px] p-4 rounded-lg border border-zinc-800 max-h-[400px] overflow-auto">
+            <div className="bg-zinc-900 w-[600px] p-4 rounded-lg border border-zinc-800 max-h-[620px] overflow-auto">
               <CodeBlock language="typescript" code={generateHandlerCode} />
             </div>
           </Dialog.Content>
