@@ -1,4 +1,4 @@
-import { env } from "@/env";
+import { env } from "./src/shared/config/env";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
@@ -7,7 +7,7 @@ export default defineConfig({
     url: env.DATABASE_URL,
   },
 
-  out: "./src/db/migrations",
-  schema: "./src/db/schema/index.ts",
+  out: "./src/infrastructure/database/drizzle/migrations",
+  schema: "./src/infrastructure/database/drizzle/schemas/index.ts",
   casing: "snake_case",
 });
