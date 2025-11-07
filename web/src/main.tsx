@@ -1,10 +1,10 @@
-import "./index.css";
+import "./styles/index.css";
 
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "./app/routeTree.gen";
 
 const router = createRouter({ routeTree });
 
