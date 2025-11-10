@@ -154,30 +154,115 @@ Interactive API documentation is available at `http://localhost:3333/docs` when 
 
 ## 📁 Project Structure
 
+This project follows professional architectural patterns for scalability and maintainability.
+
+### Backend (Clean Architecture)
+
 ```
-webhook-inspector/
-├── api/                      # Backend application
-│   ├── src/
-│   │   ├── db/
-│   │   │   ├── migrations/   # Database migrations
-│   │   │   ├── schema/       # Drizzle ORM schemas
-│   │   │   ├── index.ts      # Database connection
-│   │   │   └── seed.ts       # Database seeding
-│   │   ├── routes/           # API route handlers
-│   │   ├── env.ts            # Environment validation
-│   │   └── server.ts         # Fastify server setup
-│   ├── drizzle.config.ts     # Drizzle ORM configuration
-│   └── package.json
-├── web/                      # Frontend application
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   ├── routes/           # TanStack Router pages
-│   │   ├── http/             # API clients and schemas
-│   │   ├── index.css         # Global styles
-│   │   └── main.tsx          # Application entry
-│   └── package.json
-└── pnpm-workspace.yaml       # Monorepo configuration
+api/
+├── src/
+│   ├── domain/                          # Business logic
+│   │   ├── entities/                    # Core entities
+│   │   └── value-objects/               # Value objects
+│   │
+│   ├── infrastructure/                  # Technical implementations
+│   │   ├── database/
+│   │   │   └── drizzle/
+│   │   │       ├── migrations/          # Database migrations
+│   │   │       ├── schemas/             # Drizzle ORM schemas
+│   │   │       ├── index.ts             # Database connection
+│   │   │       └── seed.ts              # Database seeding
+│   │   ├── ai/                          # AI service integrations
+│   │   └── http/
+│   │       └── fastify/
+│   │           ├── plugins/             # Fastify plugins
+│   │           └── server.ts            # Server configuration
+│   │
+│   ├── presentation/                    # API layer
+│   │   ├── routes/                      # API route handlers
+│   │   ├── controllers/                 # Controllers
+│   │   └── validators/                  # Request validators
+│   │
+│   ├── shared/                          # Shared code
+│   │   ├── config/                      # Configuration (env)
+│   │   ├── errors/                      # Error handlers
+│   │   ├── types/                       # TypeScript types
+│   │   └── utils/                       # Utility functions
+│   │
+│   └── main.ts                          # Application entry point
+│
+├── drizzle.config.ts
+└── package.json
 ```
+
+### Frontend (Feature-based Architecture)
+
+```
+web/
+├── src/
+│   ├── app/                             # Application setup
+│   │   ├── providers/                   # React providers
+│   │   └── routes/                      # TanStack Router routes
+│   │
+│   ├── features/                        # Feature modules
+│   │   ├── webhooks/
+│   │   │   ├── api/                     # API schemas & queries
+│   │   │   ├── components/
+│   │   │   │   ├── sidebar/
+│   │   │   │   ├── webhook-details/
+│   │   │   │   └── webhook-list/
+│   │   │   ├── hooks/                   # Feature-specific hooks
+│   │   │   └── types/                   # Feature types
+│   │   │
+│   │   └── handler-generation/
+│   │       ├── api/
+│   │       ├── components/
+│   │       └── hooks/
+│   │
+│   ├── shared/                          # Shared resources
+│   │   ├── components/
+│   │   │   ├── ui/                      # Reusable UI components
+│   │   │   └── layout/                  # Layout components
+│   │   ├── hooks/                       # Shared hooks
+│   │   ├── lib/                         # Utilities & configs
+│   │   ├── types/                       # Global types
+│   │   └── constants/                   # Constants
+│   │
+│   ├── styles/                          # Global styles
+│   │   └── themes/                      # Theme files
+│   │
+│   └── main.tsx                         # Application entry point
+│
+└── package.json
+```
+
+### 🎯 Architecture Benefits
+
+**Backend (Clean Architecture)**
+- ✅ **Separation of Concerns**: Business logic isolated from infrastructure
+- ✅ **Testability**: Easy to write unit tests for each layer
+- ✅ **Flexibility**: Switch databases or frameworks without affecting business logic
+- ✅ **Scalability**: Add new features without modifying existing code
+
+**Frontend (Feature-based)**
+- ✅ **Modularity**: Each feature is self-contained and independent
+- ✅ **Colocation**: Related code lives together (components, hooks, types)
+- ✅ **Maintainability**: Easy to find and modify code
+- ✅ **Reusability**: Shared components and utilities are centralized
+
+### 📝 Adding New Features
+
+**Backend - Adding a new route:**
+1. Create route file in `api/src/presentation/routes/`
+2. Import and register in `api/src/infrastructure/http/fastify/server.ts`
+3. Add database operations in `api/src/infrastructure/database/drizzle/`
+
+**Frontend - Adding a new feature:**
+1. Create feature folder in `web/src/features/your-feature/`
+2. Add components in `your-feature/components/`
+3. Add API schemas in `your-feature/api/`
+4. Add hooks in `your-feature/hooks/`
+5. Create routes in `web/src/app/routes/` if needed
 
 ## 🎨 Code Formatting
 
@@ -203,4 +288,12 @@ MIT License - feel free to use this project for your own purposes.
 
 ## 🙏 Acknowledgments
 
-Built with modern web technologies and best practices for a seamless developer experience.
+Built with modern web technologies and professional architectural patterns:
+- **Clean Architecture** on the backend for maintainability and testability
+- **Feature-based Architecture** on the frontend for scalability
+- **Type-safety** throughout the entire stack with TypeScript and Zod
+- **Best practices** for a seamless developer experience
+
+---
+
+**Made with ❤️ by developers, for developers**
